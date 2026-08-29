@@ -30,7 +30,7 @@ jobs:
 
           printf '%s\n' 'P@ssw0rd1123' | vncpasswd -f > ~/.vnc/passwd
           chmod 600 ~/.vnc/passwd
-          vncserver -geometry 1080x1920 -depth 32 -localhost no
+          vncserver -geometry 1920x1080 -depth 32 -localhost no
 
 
       - name: Start session
