@@ -1,0 +1,24 @@
+name: Ubuntu 
+
+on: workflow_dispatch
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360  
+
+    steps:
+      - name: Install Depencies
+        run: |
+          sudo apt update
+          sudo apt install openssh-server firefox-esr xfce4 xfce4-goodies dbus-x11 dbus-user-session git -y
+
+      - name: Essentials
+        run: |
+          echo 'runner:P@ssw0rd1123' | sudo chpasswd
+          sudo mkdir -p /run/sshd && sudo systemctl restart ssh
+          sudo systemctl status ssh
+
+      - name: Start session
+        run: |
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -R myalias1234:22:localhost:22 serveo.net
