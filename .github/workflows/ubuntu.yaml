@@ -35,8 +35,8 @@ jobs:
 
       - name: Start session
         run: |
-          curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --auth-key=tskey-auth-krCoSR4Aw921CNTRL-PfA939vUcQ4eN1spCjKMQ4rDbkSDe2xG
-          sudo tailscale up
+          curl -fsSL https://tailscale.com/install.sh | sh
+          sudo tailscale up --auth-key='tskey-auth-kc3ej2pyUg11CNTRL-Lmfj51nQDEBbfaoay6wTEBkRyNfnTnhw'
           sudo tailscale set --ssh
           sudo tailscale status
           echo "Keeping process alive for 6 hours..."
