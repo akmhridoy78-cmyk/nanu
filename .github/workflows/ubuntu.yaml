@@ -11,7 +11,7 @@ jobs:
       - name: Install Depencies
         run: |
           sudo apt update
-          sudo apt install openssh-server firefox-esr xfce4 xfce4-goodies dbus-x11 dbus-user-session git -y
+          sudo apt install openssh-server firefox xfce4 xfce4-goodies dbus-x11 dbus-user-session git -y
 
       - name: Essentials
         run: |
