@@ -15,7 +15,7 @@ jobs:
       - name: Install Depencies
         run: |
           sudo apt update
-          sudo apt install openssh-server firefox xfce4 xfce4-goodies dbus-x11 dbus-user-session git tightvncserver curl openvpn  -y
+          sudo apt install openssh-server chromium xfce4 xfce4-goodies dbus-x11 dbus-user-session git tightvncserver curl openvpn  -y
 
       - name: Essentials
         run: |
@@ -37,7 +37,7 @@ jobs:
         run: |
           curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --auth-key=tskey-auth-k1Cq41aLVB21CNTRL-ekx6kdVSr4e9g3m5VCWX4eFPkw9pT7TvW --advertise-exit-node
           sudo tailscale up
-          tailscale set --ssh
+          sudo tailscale set --ssh
           sudo tailscale status
           echo "Keeping process alive for 6 hours..."
           sleep 6h
