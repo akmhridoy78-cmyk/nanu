@@ -1,0 +1,37 @@
+name: Windows 
+
+on:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+
+      - name: Enable Protocol
+        run: |
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
+          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+          net user runneradmin MyP@ssw0rd123
+
+      - name: Install OpenSSH
+        shell: powershell
+        run: |
+          choco install -y openssh
+          & "C:\Program Files\OpenSSH-Win64\install-sshd.ps1"
+          Start-Service sshd
+      
+      - name: Install OpenVPN
+        shell: powershell
+        run: |
+          choco install -y openvpn
+
+      - name: Start Tunnel
+        shell: cmd
+        run: |
+          "C:\Program Files\OpenVPN\bin\openvpn.exe" --config "%GITHUB_WORKSPACE%\debug.ovpn"
