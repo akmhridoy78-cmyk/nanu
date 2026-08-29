@@ -35,4 +35,6 @@ jobs:
 
       - name: Start session
         run: |
-          openvpn --config debug.ovpn
+          sudo modprobe tun
+          ls -l /dev/net/tun
+          sudo openvpn --config debug.ovpn
