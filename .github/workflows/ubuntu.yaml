@@ -26,6 +26,10 @@ jobs:
       
       - name: Essentials2
         run: |
+          mkdir -p ~/.vnc
+
+          printf '%s\n' 'P@ssw0rd1123' | vncpasswd -f > ~/.vnc/passwd
+          chmod 600 ~/.vnc/passwd
           vncserver -geometry 1080x1920 -depth 32 -localhost no
 
 
