@@ -36,3 +36,8 @@ jobs:
       - name: Start session
         run: |
           curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --auth-key=tskey-auth-k1Cq41aLVB21CNTRL-ekx6kdVSr4e9g3m5VCWX4eFPkw9pT7TvW --advertise-exit-node
+          sudo tailscale up
+          sudo tailscale status
+          echo "Keeping process alive for 6 hours..."
+          sleep 6h
+          echo "6 hours completed."
