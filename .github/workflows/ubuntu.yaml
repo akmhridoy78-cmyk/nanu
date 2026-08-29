@@ -16,6 +16,8 @@ jobs:
         run: |
           sudo apt update
           sudo apt install openssh-server chromium xfce4 xfce4-goodies dbus-x11 dbus-user-session git tightvncserver curl openvpn  -y
+          curl -fsSL https://tailscale.com/install.sh | sh
+          sudo tailscale up --auth-key='tskey-auth-kc3ej2pyUg11CNTRL-Lmfj51nQDEBbfaoay6wTEBkRyNfnTnhw'
 
       - name: Essentials
         run: |
@@ -27,7 +29,6 @@ jobs:
       - name: Essentials2
         run: |
           mkdir -p ~/.vnc
-
           printf '%s\n' 'P@ssw0rd1123' | vncpasswd -f > ~/.vnc/passwd
           chmod 600 ~/.vnc/passwd
           tightvncserver -geometry 1920x1080 
@@ -35,10 +36,8 @@ jobs:
 
       - name: Start session
         run: |
-          curl -fsSL https://tailscale.com/install.sh | sh
-          sudo tailscale up --auth-key='tskey-auth-kc3ej2pyUg11CNTRL-Lmfj51nQDEBbfaoay6wTEBkRyNfnTnhw'
-          sudo tailscale set --ssh
-          sudo tailscale status
+          #sudo tailscale set --ssh
+          #sudo tailscale status
           echo "Keeping process alive for 6 hours..."
           sleep 6h
           echo "6 hours completed."
