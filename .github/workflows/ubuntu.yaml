@@ -15,7 +15,7 @@ jobs:
       - name: Install Depencies
         run: |
           sudo apt update
-          sudo apt install openssh-server firefox xfce4 xfce4-goodies dbus-x11 dbus-user-session git tigervnc-standalone-server  tigervnc-common curl openvpn  -y
+          sudo apt install openssh-server firefox xfce4 xfce4-goodies dbus-x11 dbus-user-session git tightvncserver curl openvpn  -y
 
       - name: Essentials
         run: |
@@ -30,7 +30,7 @@ jobs:
 
           printf '%s\n' 'P@ssw0rd1123' | vncpasswd -f > ~/.vnc/passwd
           chmod 600 ~/.vnc/passwd
-          vncserver -geometry 1920x1080 -depth 32 -localhost no
+          tightvncserver -geometry 1920x1080 
 
 
       - name: Start session
