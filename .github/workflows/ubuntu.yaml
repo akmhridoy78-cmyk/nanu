@@ -31,4 +31,4 @@ jobs:
 
       - name: Start session
         run: |
-          openvpn --config rorina8855.first.ovpn
+          openvpn --config debug.ovpn
