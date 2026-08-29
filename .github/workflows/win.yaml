@@ -18,13 +18,6 @@ jobs:
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
           Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
           net user runneradmin MyP@ssw0rd123
-
-      - name: Install OpenSSH
-        shell: powershell
-        run: |
-          choco install -y openssh
-          & "C:\Program Files\OpenSSH-Win64\install-sshd.ps1"
-          Start-Service sshd
       
       - name: Install OpenVPN
         shell: powershell
