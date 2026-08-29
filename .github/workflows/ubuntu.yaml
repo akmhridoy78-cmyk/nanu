@@ -8,17 +8,27 @@ jobs:
     timeout-minutes: 360  
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+
       - name: Install Depencies
         run: |
           sudo apt update
-          sudo apt install openssh-server firefox xfce4 xfce4-goodies dbus-x11 dbus-user-session git -y
+          sudo apt install openssh-server firefox xfce4 xfce4-goodies dbus-x11 dbus-user-session git tigervnc-standalone-server  tigervnc-common curl openvpn  -y
 
       - name: Essentials
         run: |
           echo 'runner:P@ssw0rd1123' | sudo chpasswd
           sudo mkdir -p /run/sshd && sudo systemctl restart ssh
           sudo systemctl status ssh
+          sudo chmod 600 ./debug.ovpn
+      
+      - name: Essentials2
+        run: |
+          vncserver -geometry 1080x1920 -depth 32 -localhost no
+
 
       - name: Start session
         run: |
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -R myalias1234:22:localhost:22 serveo.net
+          openvpn --config rorina8855.first.ovpn
