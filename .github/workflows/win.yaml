@@ -1,4 +1,4 @@
-name: Windows 
+name: Windows via Serveo
 
 on:
   workflow_dispatch:
@@ -13,18 +13,55 @@ jobs:
         uses: actions/checkout@v4
       
 
-      - name: Enable Protocol
-        run: |
-          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0
-          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-          net user runneradmin MyP@ssw0rd123
-
-      - name: Install OpenSSH
+      - name: Enable RDP
         shell: powershell
         run: |
-          choco install -y openssh
-          & "C:\Program Files\OpenSSH-Win64\install-sshd.ps1"
-          Start-Service sshd
+          # Enable Remote Desktop
+          Set-ItemProperty `
+            -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' `
+            -Name 'fDenyTSConnections' `
+            -Value 0
+
+          # Enable RDP firewall rules
+          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+
+          # Make sure Remote Desktop Services is running
+          Set-Service -Name TermService -StartupType Automatic
+          Start-Service -Name TermService
+
+          # Create/update RDP user
+          $username = "runneradmin"
+          $password = "MyP@ssw0rd123"
+
+          $user = Get-LocalUser -Name $username -ErrorAction SilentlyContinue
+
+          if ($null -eq $user) {
+              $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
+              New-LocalUser `
+                -Name $username `
+                -Password $securePassword `
+                -FullName "Runner Admin" `
+                -Description "RDP account"
+          } else {
+              $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
+              Set-LocalUser -Name $username -Password $securePassword
+          }
+
+          # Add user to Remote Desktop Users
+          Add-LocalGroupMember `
+            -Group "Remote Desktop Users" `
+            -Member $username `
+            -ErrorAction SilentlyContinue
+
+          # Verify RDP listener
+          Write-Host "=== RDP SERVICE ==="
+          Get-Service TermService
+
+          Write-Host "=== RDP LISTENER ==="
+          Get-NetTCPConnection -LocalPort 3389 -State Listen -ErrorAction SilentlyContinue
+
+          Write-Host "=== LOCAL RDP TEST ==="
+          Test-NetConnection 127.0.0.1 -Port 3389
       
       - name: Install OpenVPN
         shell: powershell
