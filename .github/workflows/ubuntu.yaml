@@ -35,6 +35,4 @@ jobs:
 
       - name: Start session
         run: |
-          sudo modprobe tun
-          ls -l /dev/net/tun
-          sudo openvpn --config debug.ovpn
+          curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --auth-key=tskey-auth-kKNxx6igop11CNTRL-aPr3L3jLZJ5TYms2rMmCJ5W7zSnkjURB
