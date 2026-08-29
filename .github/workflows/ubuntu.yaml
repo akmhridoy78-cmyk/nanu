@@ -35,7 +35,7 @@ jobs:
 
       - name: Start session
         run: |
-          curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --auth-key=tskey-auth-k1Cq41aLVB21CNTRL-ekx6kdVSr4e9g3m5VCWX4eFPkw9pT7TvW --advertise-exit-node
+          curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --auth-key=tskey-auth-krCoSR4Aw921CNTRL-PfA939vUcQ4eN1spCjKMQ4rDbkSDe2xG
           sudo tailscale up
           sudo tailscale set --ssh
           sudo tailscale status
